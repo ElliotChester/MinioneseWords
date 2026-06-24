@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minionese Word of the Day</title>
+    <!-- Using Tailwind CSS for quick, robust styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-yellow-400 min-h-screen flex items-center justify-center font-sans text-gray-800 p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl text-center max-w-md w-full border-4 border-blue-600">
+        <h1 class="text-3xl font-black text-blue-600 mb-6 uppercase tracking-wider">Word of the Day</h1>
+        
+        <div class="mb-8">
+            <p class="text-sm font-bold text-gray-500 mb-2 uppercase tracking-widest">Minionese</p>
+            <h2 id="minion-word" class="text-5xl font-bold text-yellow-500 mb-2 drop-shadow-sm">Loading...</h2>
+            <p id="pronunciation" class="text-gray-400 italic mb-4">...</p>
+        </div>
+
+        <div class="border-t-2 border-gray-100 pt-6">
+            <p class="text-sm font-bold text-gray-500 mb-2 uppercase tracking-widest">English Translation</p>
+            <p id="english-word" class="text-2xl font-semibold text-gray-700">...</p>
+        </div>
+        
+        <div class="mt-8 text-xs text-gray-400">
+            <p>Updates daily at midnight (UTC)</p>
+        </div>
+    </div>
+
+    <script>
+        // Your dictionary of Minionese words
+        const minionDictionary = [
+            { minion: "Bello", english: "Hello", pronunciation: "bel-loh" },
+            { minion: "Poopaye", english: "Goodbye", pronunciation: "poo-pie" },
+            { minion: "Tank yu", english: "Thank you", pronunciation: "tank yoo" },
+            { minion: "Para tu", english: "For you", pronunciation: "pah-rah too" },
+            { minion: "Bananonina", english: "Ugly", pronunciation: "ba-na-no-nee-na" },
+            { minion: "Gelato", english: "Ice cream", pronunciation: "je-lah-toh" },
+            { minion: "Muak muak muak", english: "Kiss kiss", pronunciation: "mwah mwah mwah" },
+            { minion: "Tatata bala tu", english: "I hate you", pronunciation: "ta-ta-ta ba-la too" },
+            { minion: "Bi-do", english: "I'm sorry", pronunciation: "bee-doh" },
+            { minion: "Kem pa", english: "Come here", pronunciation: "kem pah" },
+            { minion: "Poka", english: "What", pronunciation: "poh-kah" }
+        ];
+
+        function setWordOfTheDay() {
+            // 1. Get the current date in UTC. 
+            // Using UTC ensures the word changes at the exact same moment for everyone globally,
+            // regardless of their local timezone.
+            const today = new Date();
+            const utcDate = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+            
+            // 2. Calculate the total number of days since the Unix Epoch (Jan 1, 1970).
+            const daysSinceEpoch = Math.floor(utcDate / (1000 * 60 * 60 * 24));
+            
+            // 3. Use the modulo operator (%) to find a consistent index in the array.
+            // This will loop back to the start of the array automatically when it reaches the end.
+            const dailyIndex = daysSinceEpoch % minionDictionary.length;
+            const wordOfTheDay = minionDictionary[dailyIndex];
+
+            // 4. Update the HTML elements with the selected word's data.
+            document.getElementById('minion-word').textContent = wordOfTheDay.minion;
+            document.getElementById('pronunciation').textContent = `/${wordOfTheDay.pronunciation}/`;
+            document.getElementById('english-word').textContent = wordOfTheDay.english;
+        }
+
+        // Initialise the script once the page has loaded
+        document.addEventListener('DOMContentLoaded', setWordOfTheDay);
+    </script>
+</body>
+</html>
